@@ -3,7 +3,11 @@ const Schema = mongoose.Schema
 const urlSchema = new Schema({
   url: {
     type: String,
-    required:true
+    trim: true
+  },
+  code: {
+    type: String,
+    trim: true
   }
 })
 module.exports = mongoose.model('URL', urlSchema)
