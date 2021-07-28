@@ -1,4 +1,31 @@
 <div class="mt-5" style="text-align: center;">
-  <p>Success! Please use this link:</p>
-  <a href="{{shortUrl}}">{{shortUrl}}</a>
+  <p class="mr-5">Success! Please use this link:</p>
+  <div class="mt-4">
+  <a href="{{shortUrl}}" id="copyText" style="vertical-align: middle">{{shortUrl}}</a> 
+  <input type="button" class="btn btn-outline-info ml-3" onclick="copyLink()" data-toggle="tooltip" title="Copy to Clipboard" style="vertical-align: middle"
+    value="copy link" readonly>
+  </div>
 </div>
+<div style="text-align: right;">
+  
+  <a href="http://localhost:3000/" class="btn btn-outline-primary mt-3 mr-3">back</a>  
+</div>
+
+<script>
+  function copyLink() {
+    let copyText = document.getElementById("copyText")
+
+    var selection = window.getSelection();
+
+    var range = document.createRange();
+
+    range.selectNodeContents(copyText);
+
+    selection.removeAllRanges();
+
+    selection.addRange(range);
+
+    document.execCommand('copy');
+  }
+</script>
+

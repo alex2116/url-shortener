@@ -10,6 +10,8 @@ router.get('/', (req, res) => {
 
 router.post('/', async (req, res) => {
   const url = req.body.url
+  const protocol = req.protocol
+  const host = req.headers.host
 
   if (!urlValidate(url)) {
     return res.render('index', { input: true, errorMessage: 'Please enter valid URL' })
@@ -20,7 +22,7 @@ router.post('/', async (req, res) => {
   if (shortUrl.length) { //如果shortUrl有成立，就會變成 if(true)
     return res.render('index', {
       result: true,
-      shortUrl: `http://localhost:3000/${shortUrl[0].code}`
+      shortUrl: `${protocol}://${host}/${shortUrl[0].code}`
     })
   }
 
@@ -33,7 +35,7 @@ router.post('/', async (req, res) => {
 
   const newUrl = new Url({ url, code })
   await newUrl.save()
-  res.render('index', { result: true, shortUrl: `http://localhost:3000/${code}` })
+  res.render('index', { result: true, shortUrl: `${protocol}://${host}/${code}` })
 })
 
 router.get('/:code', async (req, res) => {
