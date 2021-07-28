@@ -4,6 +4,8 @@ const Url = require('../../models/url')
 const { urlValidate } = require('../../tools/urlValidate')
 const { shortenUrlBase62 } = require('../../tools/shortenUrlBase62')
 
+
+
 router.get('/', (req, res) => {
   res.render('index', { input: true })
 })
@@ -12,7 +14,7 @@ router.post('/', async (req, res) => {
   const url = req.body.url
   const protocol = req.protocol
   const host = req.headers.host
-  const homepage = `${ protocol }://${host}/`
+  const homepage = `${protocol}://${host}/`
 
   if (!urlValidate(url)) {
     return res.render('index', { input: true, errorMessage: 'Please enter valid URL' })
@@ -42,9 +44,13 @@ router.post('/', async (req, res) => {
 
 router.get('/:code', async (req, res) => {
   const code = req.params.code
+  const protocol = req.protocol
+  const host = req.headers.host
+  const homepage = `${protocol}://${host}/`
   const result = await Url.find({ code }).lean()
+  
   if (!result.length) {
-    return res.render('wrongShortenUrl')
+    return res.render('wrongShortenUrl', { homepage })
   }
   res.render('convert', { result: result[0] })
 })
