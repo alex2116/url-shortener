@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
   const host = req.headers.host
   const homepage = `${protocol}://${host}/`
 
-  if (!urlValidate(url)) {
+  if (!urlValidate(url)) { //如果不符合function urlValidate
     return res.render('index', { input: true, errorMessage: 'Please enter valid URL' })
   }
 
@@ -31,9 +31,9 @@ router.post('/', async (req, res) => {
   }
 
   let code = shortenUrlBase62()
-  let checkCode = await Url.find({ code }).lean()
-  while (checkCode.length) {
-    shorten = shortenUrlBase62()
+  let checkCode = await Url.find({ code }).lean() //尋找資料庫內是否已經出現過此短代碼
+  while (checkCode.length) { //如果已經出現過，checkcode就會成立
+    code = shortenUrlBase62()
     checkCode = await Url.find({ code }).lean()
   }
 
